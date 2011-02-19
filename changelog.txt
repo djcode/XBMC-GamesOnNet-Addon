@@ -1,0 +1,4 @@
+0.1.1 - 20/02/2011
+* Converted to XBMC Addon format
+* Replaced old os.getcwd() method
+* Fixed playback url errors with some files
