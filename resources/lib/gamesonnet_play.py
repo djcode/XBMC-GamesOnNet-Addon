@@ -92,7 +92,9 @@ class Main:
 		#
 		url_dict = self.video_page_url.split( "/" )
 		video_id = url_dict[ 2 ]
-
+		
+		dialogWait.update(50)
+		
 		#
 		# Video URL...
 		#
