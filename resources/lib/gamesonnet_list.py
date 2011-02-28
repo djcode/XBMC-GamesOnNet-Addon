@@ -1,25 +1,15 @@
-#
 # Imports
-#
-import os
-import sys
-import datetime
-import xbmc
-import xbmcaddon
-import xbmcgui
-import xbmcplugin
-import urllib
+import os,sys,datetime,urllib,urllib2
+import xbmc,xbmcaddon,xbmcgui,xbmcplugin
 from BeautifulSoup import SoupStrainer
 from BeautifulSoup import BeautifulSoup
 
-#
 # Main class
-#
 class Main:
-	#
+
 	# Init
-	#
 	def __init__( self ) :
+
 		# Constants
 		self.__addon__ = xbmcaddon.Addon('plugin.video.gamesonnet')
 		self.__setting__ = self.__addon__.getSetting
@@ -36,30 +26,20 @@ class Main:
 		else :
 			page_no = 1
 
-		#
 		# Get the videos...
-		#
 		self.getVideos( page_no )
 
-	#
 	# Get plugins...
-	#
 	def getVideos( self, page_no ) :
-		#
-		# Init
-		#
 
-		#
+		# Init
 		# Get HTML page...
-		#
 		url = "http://games.on.net/filelist.php?type=v&p=%u" % ( page_no )
-		usock = urllib.urlopen( url )
+		usock = urllib2.urlopen( url )
 		htmlSource = usock.read()
 		usock.close()
 
-		#
 		# Parse response...
-		#
 		soupStrainer  = SoupStrainer( "div", { "class" : "file_list" } )
 		beautifulSoup = BeautifulSoup( htmlSource, soupStrainer )
 
@@ -88,9 +68,7 @@ class Main:
 													int( video_date.split( "/" )[ 1 ] ),
 													int( video_date.split( "/" )[ 0 ] ) ).strftime( self.USER_DATE_FORMAT )
 
-				#
 				# Add to list...
-				#
 				listitem        = xbmcgui.ListItem( video_summary, iconImage="DefaultVideo.png", thumbnailImage = os.path.join(self.IMAGES_PATH, 'logo.png' ) )
 				listitem.setInfo( "video", { "Title" : video_summary, "Studio" : "Games On Net", "Genre" : video_date_display, "Size" : video_size } )
 				plugin_play_url = '%s?action=play&video_page_url=%s' % ( sys.argv[ 0 ], urllib.quote_plus( video_page_url ) )
@@ -99,9 +77,6 @@ class Main:
 		# Next page entry...
 		listitem = xbmcgui.ListItem (self.__lang__(30402), iconImage = "DefaultFolder.png", thumbnailImage = os.path.join(self.IMAGES_PATH, 'next-page.png'))
 		xbmcplugin.addDirectoryItem( handle = int(sys.argv[1]), url = "%s?action=list&page=%i" % ( sys.argv[0], page_no + 1 ), listitem = listitem, isFolder = True)
-
-		# Label (top-right)...
-		#  xbmcplugin.setPluginCategory( handle=int( sys.argv[ 1 ] ), category=( xbmc.getLocalizedString(30401)  % page_no ) )
 
 		# Disable sorting...
 		xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_NONE )
