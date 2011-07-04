@@ -22,9 +22,10 @@ class Main:
 		# Parse parameters...
 		if sys.argv[ 2 ] != "" :
 			params  = dict(part.split('=') for part in sys.argv[ 2 ][ 1: ].split('&'))
-			page_no = int( params[ "page" ] )
-		else :
-			page_no = 1
+			if "page" in params:
+				page_no = int( params[ "page" ] )
+			else :
+				page_no = 1
 
 		# Get the videos...
 		self.getVideos( page_no )
@@ -76,7 +77,7 @@ class Main:
 
 		# Next page entry...
 		listitem = xbmcgui.ListItem (self.__lang__(30402), iconImage = "DefaultFolder.png", thumbnailImage = os.path.join(self.IMAGES_PATH, 'next-page.png'))
-		xbmcplugin.addDirectoryItem( handle = int(sys.argv[1]), url = "%s?action=list&page=%i" % ( sys.argv[0], page_no + 1 ), listitem = listitem, isFolder = True)
+		xbmcplugin.addDirectoryItem( handle = int(sys.argv[1]), url = "%s?action=latestmedia&page=%i" % ( sys.argv[0], page_no + 1 ), listitem = listitem, isFolder = True)
 
 		# Disable sorting...
 		xbmcplugin.addSortMethod( handle=int( sys.argv[ 1 ] ), sortMethod=xbmcplugin.SORT_METHOD_NONE )
