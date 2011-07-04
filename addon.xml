@@ -13,12 +13,7 @@
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="en">Games.on.net Videos</summary>
-		<description lang="en">A plugin to access the videos from Internode's Games.on.net.
-		
-		All videos should be unmetered through an Internode internet connection. 
-		
-		Please post any bugs or suggestions on
-		https://github.com/djcode/XBMC-GamesOnNet-Addon/issues
+		<description lang="en">A plugin to access the videos from Internode's Games.on.net.[CR][CR]All videos should be unmetered through an Internode internet connection. [CR][CR]Please post any bugs or suggestions on[CR]https://github.com/djcode/XBMC-GamesOnNet-Addon/issues
 		</description>
 	</extension>
 </addon>
