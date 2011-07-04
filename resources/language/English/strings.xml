@@ -5,6 +5,7 @@
 
 	<!-- 	* Settings labels 	--> 
 		<string id="30080">Playback</string>
+		<string id="30081">Directory</string>
 		<string id="30089">Credits</string>
 
 	<!-- 	* Settings labels 	-->
@@ -19,6 +20,7 @@
 		<string id="30204">Quality</string>
 		<string id="30205">High</string>
 		<string id="30206">Low</string>
+		<string id="30207">Show Thumbnails</string>
 
 	<!--	* Texts	-->
 		<string id="30401">Page %u</string>
