@@ -67,7 +67,15 @@ class Main:
 		table_1st_row         = table_file.tr
 		table_1st_row_3rd_col = table_1st_row.findAll( "td" )[2]
 		thumbnail             = table_1st_row_3rd_col.img[ "src" ]
-
+		
+		# Work out whether "view" is possible
+		hyperlinks			= table_file.findAll("a", attrs={"href": re.compile("^javascript")})
+	#	print str(hyperlinks)
+		if "javascript:vidplayer" in str(hyperlinks):
+			use_view_method = 1
+		else:
+			use_view_method = 0
+		print use_view_method
 		# Video ID
 		url_dict = self.video_page_url.split( "/" )
 		video_id = url_dict[ 2 ]
@@ -75,16 +83,22 @@ class Main:
 		dialogWait.update(50)
 		
 		# Video URL...
-		if self.__setting__('quality')=='0':
-			quality = 'high'
+		if use_view_method == 1:
+			if self.__setting__('quality')=='0':
+				quality = 'high'
+			else:
+				quality = 'low'
+			url = "http://games.on.net/filepopup.php?video=%(id)s&quality=%(q)s" % {'id':video_id, 'q': quality}
+			regex = "\'(.+?\.(flv|mp4|mov|avi|3gp))\'"
 		else:
-			quality = 'low'
-		url = "http://games.on.net/filepopup.php?video=%(id)s&quality=%(q)s" % {'id':video_id, 'q': quality}
+			url = "http://games.on.net/filepopup.php?file=%(id)s" % {'id':video_id}
+			regex = 'URL=(.+?\.(flv|mp4|mov|avi|3gp))\"'
 		usock = urllib2.urlopen( url )
 		htmlSource = usock.read()
 		usock.close()
-		video_dom = 'http://gon.cdn.on.net'
-		video_url = re.compile( "\'(.+?\.flv)\'" ).search( htmlSource ).group( 1 )
+		video_url = re.compile( regex ).search( htmlSource ).group( 1 )
+		print video_url
+		video_dom = "http://gon.cdn.on.net"
 		if video_url.startswith('http://'):
 			video_url = video_url
 		else :
